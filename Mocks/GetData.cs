@@ -15,13 +15,22 @@ namespace DiplomMag.Mocks
         {
             Url = url;
         }
-        public void WebSrap()
+        public ChromeDriver GetDriver()
         {
-
             var chromeOptions = new ChromeOptions();
             chromeOptions.AddArguments("headless");
             var driver = new ChromeDriver();
             driver.Navigate().GoToUrl(Url);
+            return driver;
+        }
+        public void WebSrap()
+        {
+
+            //var chromeOptions = new ChromeOptions();
+            //chromeOptions.AddArguments("headless");
+            //var driver = new ChromeDriver();
+            //driver.Navigate().GoToUrl(Url);
+            var driver = GetDriver();
             var nodesTeamA = driver.FindElements(By.XPath("/html/body/main/div/game-widget/div/div[3]/div[1]/div[2]/div/table/tbody/tr[position()>=1]"));
             var nodesTeamB = driver.FindElements(By.XPath("/html/body/main/div/game-widget/div/div[3]/div[2]/div[2]/div/table/tbody/tr[position()>=1]"));
             Tournament = new Tournament();

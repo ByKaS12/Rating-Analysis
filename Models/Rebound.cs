@@ -9,7 +9,7 @@
         public int AllReb { get { return RebOfAlien + RebOfOwn; } set { AllReb = value; } }
 
         public Guid StatisticId { get; set; }
-        public virtual required Statistic Statistic { get; set; }
+        public virtual Statistic Statistic { get; set; }
 
     }
 }

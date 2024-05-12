@@ -44,6 +44,7 @@ namespace DiplomMag.Mocks
         public double CalcDRBP() => (CalclgTRB-CalclgORB)/(CalclgTRB);
         public double CalcUPer()
         {
+            var MP = 1 / (Player.Statistic.TimePlayed.Minute + Player.Statistic.TimePlayed.Second / 60);
             var _3P = Player.Statistic.Shoots.ThreePointScoredPoints;
             var PF = Player.Statistic.Fouls;
             var FT = Player.Statistic.Shoots.FreeThrowsScoredPoints;
@@ -57,12 +58,17 @@ namespace DiplomMag.Mocks
             var TO = Player.Statistic.Losses;
             var STL = Player.Statistic.Steals;
 
-            var UPER = 1 / (Player.Statistic.TimePlayed.Minute + Player.Statistic.TimePlayed.Second / 60) * 
+            var uPER = MP * 
                 (_3P - (PF*CalclgFT/CalclgPF)+(FT/2*(2-(CalctmAST/(3*CalctmFG))))+(FG*(2-(CalcFactor()*CalctmAST/CalctmFG)))
                 +(2*AST/3)+CalcVOP()*(CalcDRBP()*(2*ORB+BLK-0.2464*(FTA-FT)-(FGA-FG)-TRB)+((0.44*CalclgFTA*PF)/CalclgPF)-(TO+ORB)+STL+TRB-0.1936*(FTA-FT)));
+            return uPER;
+        }
+        public double CalcPOSS()
+        {
+            //TODO
             return 0;
         }
-
+        
  
         public double CalcHollinger()
         {

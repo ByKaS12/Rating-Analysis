@@ -1,8 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using DiplomMag.models;
+﻿using DiplomMag.models;
+using Microsoft.EntityFrameworkCore;
 
 
 

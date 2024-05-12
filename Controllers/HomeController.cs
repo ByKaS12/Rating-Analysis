@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+﻿using DiplomMag.Mocks;
 using DiplomMag.Models;
-using DiplomMag.Mocks;
+using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace DiplomMag.Controllers
 {

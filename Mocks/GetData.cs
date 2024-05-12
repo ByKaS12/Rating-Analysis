@@ -1,11 +1,7 @@
 ﻿using DiplomMag.models;
 using DiplomMag.Models;
-using HtmlAgilityPack;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.EntityFrameworkCore.Storage.Json;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using System;
 
 
 namespace DiplomMag.Mocks
@@ -21,7 +17,7 @@ namespace DiplomMag.Mocks
         }
         public void WebSrap()
         {
-            
+
             var chromeOptions = new ChromeOptions();
             chromeOptions.AddArguments("headless");
             var driver = new ChromeDriver();
@@ -30,7 +26,6 @@ namespace DiplomMag.Mocks
             var nodesTeamB = driver.FindElements(By.XPath("/html/body/main/div/game-widget/div/div[3]/div[2]/div[2]/div/table/tbody/tr[position()>=1]"));
             Tournament = new Tournament();
             Tournament.Name = "Test";
-            //List<Game> games = new List<Game>();
             Game game = new Game();
             game.TournamentId = Tournament.Id;
             game.Tournament = Tournament;
@@ -40,13 +35,13 @@ namespace DiplomMag.Mocks
             teamB.Name = "P";
 
             List<Player> playersA = new List<Player>();
-            for (int i = 0; i < nodesTeamA.Count-1; i++)
+            for (int i = 0; i < nodesTeamA.Count - 1; i++)
             {
                 var Name = nodesTeamA[i].FindElements(By.XPath("td[3]"))[0].Text.Split(" ");
                 var Time = nodesTeamA[i].FindElements(By.XPath("td[4]"))[0].Text.Split(":");
                 var Points = nodesTeamA[i].FindElements(By.XPath("td[5]"))[0].Text;
                 var TwoPoint = nodesTeamA[i].FindElements(By.XPath("td[6]"))[0].Text.Split("/");
-                TwoPoint = TwoPoint[0] != "" ? TwoPoint : ["0","0"]; 
+                TwoPoint = TwoPoint[0] != "" ? TwoPoint : ["0", "0"];
                 var ThreePoint = nodesTeamA[i].FindElements(By.XPath("td[7]"))[0].Text.Split("/");
                 ThreePoint = ThreePoint[0] != "" ? ThreePoint : ["0", "0"];
                 var Shoots = nodesTeamA[i].FindElements(By.XPath("td[8]"))[0].Text.Split("/");
@@ -97,7 +92,8 @@ namespace DiplomMag.Mocks
 
 
                 };
-                Shoot shoots = new Shoot() {
+                Shoot shoots = new Shoot()
+                {
                     StatisticId = statistic.Id,
                     Statistic = statistic,
                     TwoPointScoredPoints = Convert.ToInt32(TwoPoint[0]),
@@ -119,7 +115,7 @@ namespace DiplomMag.Mocks
 
                 player.Statistic = statistic;
                 playersA.Add(player);
-                
+
             }
             game.Players.AddRange(playersA);
             teamA.Players.AddRange(playersA);

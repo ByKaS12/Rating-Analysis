@@ -17,6 +17,7 @@
         public int PlusMinus { get; set; }
         public int KPI { get; set; }
         public double CalcUPer { get; set; }
+        public double CalcPace { get; set; }
         public double CalcHollinger { get; set; }
 
         public Guid PlayerId { get; set; }

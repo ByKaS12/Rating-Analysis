@@ -31,6 +31,9 @@ namespace DiplomMag.Mocks
         public double CalcOppORB { get; set; }
         public double CalcOppTOV { get; set; }
         public double CalctmMP { get; set; }
+        public double CalctmPace { get; set; }
+        public double CalclgPace { get; set; }
+        public double CalclgUPer { get; set; }
         public DataAnalysis(Game game, Player player)
         {
             Game = game;
@@ -46,6 +49,8 @@ namespace DiplomMag.Mocks
             CalclgTO = Game.Players.Average(x => x.Statistic.Losses);
             CalclgTRB = Game.Players.Average(x => x.Statistic.Rebounds.AllReb);
             CalclgPF = Game.Players.Average(x => x.Statistic.Fouls);
+            CalclgPace = Game.Players.Average(x => x.Statistic.CalcPace);
+            CalclgUPer = Game.Players.Average(x => x.Statistic.CalcUPer);
             CalctmAST = Game.Players.FindAll(x => x.TeamId == Player.TeamId).Average(x => x.Statistic.Assists);
             CalctmFG = Game.Players.FindAll(x => x.TeamId == Player.TeamId).Average(x => x.Statistic.Shoots.FieldGoalsScoredPoints);
             CalctmFGA = Game.Players.FindAll(x => x.TeamId == Player.TeamId).Average(x => x.Statistic.Shoots.FieldGoalsAllPoints);
@@ -60,6 +65,9 @@ namespace DiplomMag.Mocks
             CalctmTOV = Game.Players.FindAll(x => x.TeamId == Player.TeamId).Average(x => x.Statistic.Losses);
             CalctmDRB = Game.Players.FindAll(x => x.TeamId == Player.TeamId).Average(x => x.Statistic.Rebounds.RebOfOwn);
             CalctmMP = Game.Players.FindAll(x => x.TeamId == Player.TeamId).Average(x => (x.Statistic.TimePlayed.Minute + x.Statistic.TimePlayed.Second / 60));
+            CalctmMP = Game.Players.FindAll(x => x.TeamId == Player.TeamId).Average(x => (x.Statistic.TimePlayed.Minute + x.Statistic.TimePlayed.Second / 60));
+            CalctmPace = Game.Players.FindAll(x => x.TeamId == Player.TeamId).Average(x => x.Statistic.CalcPace);
+
         }
 
 
@@ -95,9 +103,7 @@ namespace DiplomMag.Mocks
     (CalcOppFGA - CalcOppFG) + CalcOppTOV));
 
         public double CalcPace() => 40 * ((CalctmPOSS() + CalcOppPOSS()) / (2 * (CalctmMP / 5)));
-        //TODO Add tmposs oppposs avg poss in statistic, CalcPace, CalcuPER and compute calc PER
-
-        // public double CalcHollinger() => (CalcUPer()*())
+        public double CalcHollinger() => (CalcUPer() * (CalclgPace / CalctmPace)*15/CalclgUPer);
 
 
     }

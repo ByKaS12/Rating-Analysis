@@ -108,7 +108,8 @@ namespace DiplomMag.Mocks
     (CalcOppFGA - CalcOppFG) + CalcOppTOV));
 
         public double CalcPace() => 40.0 * ((CalctmPOSS() + CalcOppPOSS()) / (2.0 * (CalctmMP / 5.0)));
-        public double CalcHollinger() => (CalcUPer() * (CalclgPace / CalctmPace)*15.0/CalclgUPer);
+        // 
+        public double CalcHollinger() => 0.8*(CalcUPer() * (CalclgPace / CalctmPace)*15.0/CalclgUPer);
 
 
     }

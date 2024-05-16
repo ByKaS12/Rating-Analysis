@@ -19,7 +19,19 @@ namespace DiplomMag.Mocks
         public double CalclgPF { get; set; }
         public double CalctmAST { get; set; }
         public double CalctmFG { get; set; }
-        public DataAnalysis(Game game,Player player)
+        public double CalctmFGA { get; set; }
+        public double CalctmFTA { get; set; }
+        public double CalctmORB { get; set; }
+        public double CalcOppDRB { get; set; }
+        public double CalctmTOV { get; set; }
+        public double CalctmDRB { get; set; }
+        public double CalcOppFGA { get; set; }
+        public double CalcOppFG { get; set; }
+        public double CalcOppFTA { get; set; }
+        public double CalcOppORB { get; set; }
+        public double CalcOppTOV { get; set; }
+        public double CalctmMP { get; set; }
+        public DataAnalysis(Game game, Player player)
         {
             Game = game;
             if (Game.Players.FirstOrDefault(x => x.Id == player.Id) == null) return;
@@ -36,12 +48,24 @@ namespace DiplomMag.Mocks
             CalclgPF = Game.Players.Average(x => x.Statistic.Fouls);
             CalctmAST = Game.Players.FindAll(x => x.TeamId == Player.TeamId).Average(x => x.Statistic.Assists);
             CalctmFG = Game.Players.FindAll(x => x.TeamId == Player.TeamId).Average(x => x.Statistic.Shoots.FieldGoalsScoredPoints);
+            CalctmFGA = Game.Players.FindAll(x => x.TeamId == Player.TeamId).Average(x => x.Statistic.Shoots.FieldGoalsAllPoints);
+            CalctmFTA = Game.Players.FindAll(x => x.TeamId == Player.TeamId).Average(x => x.Statistic.Shoots.FreeThrowsAllPoints);
+            CalctmORB = Game.Players.FindAll(x => x.TeamId == Player.TeamId).Average(x => x.Statistic.Rebounds.RebOfAlien);
+            CalcOppDRB = Game.Players.FindAll(x => x.TeamId != Player.TeamId).Average(x => x.Statistic.Rebounds.RebOfOwn);
+            CalcOppFGA = Game.Players.FindAll(x => x.TeamId != Player.TeamId).Average(x => x.Statistic.Shoots.FieldGoalsAllPoints);
+            CalcOppFG = Game.Players.FindAll(x => x.TeamId != Player.TeamId).Average(x => x.Statistic.Shoots.FieldGoalsScoredPoints);
+            CalcOppFTA = Game.Players.FindAll(x => x.TeamId != Player.TeamId).Average(x => x.Statistic.Shoots.FreeThrowsAllPoints);
+            CalcOppORB = Game.Players.FindAll(x => x.TeamId != Player.TeamId).Average(x => x.Statistic.Rebounds.RebOfAlien);
+            CalcOppTOV = Game.Players.FindAll(x => x.TeamId != Player.TeamId).Average(x => x.Statistic.Losses);
+            CalctmTOV = Game.Players.FindAll(x => x.TeamId == Player.TeamId).Average(x => x.Statistic.Losses);
+            CalctmDRB = Game.Players.FindAll(x => x.TeamId == Player.TeamId).Average(x => x.Statistic.Rebounds.RebOfOwn);
+            CalctmMP = Game.Players.FindAll(x => x.TeamId == Player.TeamId).Average(x => (x.Statistic.TimePlayed.Minute + x.Statistic.TimePlayed.Second / 60));
         }
 
 
-        public double CalcFactor() => 2 / 3 - ((0.5*CalclgAST/CalclgFG)/(2*CalclgFG/CalclgFT));
-        public double CalcVOP() => (CalclgPTS/(CalclgFGA-CalclgORB+CalclgTO+0.44*CalclgFT));
-        public double CalcDRBP() => (CalclgTRB-CalclgORB)/(CalclgTRB);
+        public double CalcFactor() => 2 / 3 - ((0.5 * CalclgAST / CalclgFG) / (2 * CalclgFG / CalclgFT));
+        public double CalcVOP() => (CalclgPTS / (CalclgFGA - CalclgORB + CalclgTO + 0.44 * CalclgFT));
+        public double CalcDRBP() => (CalclgTRB - CalclgORB) / (CalclgTRB);
         public double CalcUPer()
         {
             var MP = 1 / (Player.Statistic.TimePlayed.Minute + Player.Statistic.TimePlayed.Second / 60);
@@ -58,23 +82,23 @@ namespace DiplomMag.Mocks
             var TO = Player.Statistic.Losses;
             var STL = Player.Statistic.Steals;
 
-            var uPER = MP * 
-                (_3P - (PF*CalclgFT/CalclgPF)+(FT/2*(2-(CalctmAST/(3*CalctmFG))))+(FG*(2-(CalcFactor()*CalctmAST/CalctmFG)))
-                +(2*AST/3)+CalcVOP()*(CalcDRBP()*(2*ORB+BLK-0.2464*(FTA-FT)-(FGA-FG)-TRB)+((0.44*CalclgFTA*PF)/CalclgPF)-(TO+ORB)+STL+TRB-0.1936*(FTA-FT)));
+            var uPER = MP *
+                (_3P - (PF * CalclgFT / CalclgPF) + (FT / 2 * (2 - (CalctmAST / (3 * CalctmFG)))) + (FG * (2 - (CalcFactor() * CalctmAST / CalctmFG)))
+                + (2 * AST / 3) + CalcVOP() * (CalcDRBP() * (2 * ORB + BLK - 0.2464 * (FTA - FT) - (FGA - FG) - TRB) + ((0.44 * CalclgFTA * PF) / CalclgPF) - (TO + ORB) + STL + TRB - 0.1936 * (FTA - FT)));
             return uPER;
         }
-        public double CalcPOSS()
-        {
-            //TODO
-            return 0;
-        }
-        
- 
-        public double CalcHollinger()
-        {
+        public double CalctmPOSS() => 0.5 * ((CalctmFGA + 0.4 * CalctmFTA - 1.07 * (CalctmORB / (CalctmORB + CalcOppDRB)) *
+            (CalctmFGA - CalctmFG) + CalctmTOV) + (CalcOppFGA + 0.4 * CalcOppFTA - 1.07 * (CalcOppORB / (CalcOppORB + CalctmDRB)) *
+            (CalcOppFGA - CalcOppFG) + CalcOppTOV));
+        public double CalcOppPOSS() => 0.5 * ((CalcOppFGA + 0.4 * CalcOppFTA - 1.07 * (CalcOppORB / (CalcOppORB + CalctmDRB)) *
+    (CalcOppFGA - CalcOppFG) + CalcOppTOV) + (CalctmFGA + 0.4 * CalctmFTA - 1.07 * (CalctmORB / (CalctmORB + CalcOppDRB)) *
+    (CalcOppFGA - CalcOppFG) + CalcOppTOV));
 
-            return 0;
-        }
+        public double CalcPace() => 40 * ((CalctmPOSS() + CalcOppPOSS()) / (2 * (CalctmMP / 5)));
+        //TODO Add tmposs oppposs avg poss in statistic, CalcPace, CalcuPER and compute calc PER
+
+        // public double CalcHollinger() => (CalcUPer()*())
+
 
     }
 }

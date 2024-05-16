@@ -71,12 +71,17 @@ namespace DiplomMag.Mocks
         }
 
 
-        public double CalcFactor() => 2 / 3 - ((0.5 * CalclgAST / CalclgFG) / (2 * CalclgFG / CalclgFT));
+        public double CalcFactor() => (double)(2.0 / 3.0) - ((0.5 * CalclgAST / CalclgFG) / (2.0 * CalclgFG / CalclgFT));
         public double CalcVOP() => (CalclgPTS / (CalclgFGA - CalclgORB + CalclgTO + 0.44 * CalclgFT));
         public double CalcDRBP() => (CalclgTRB - CalclgORB) / (CalclgTRB);
         public double CalcUPer()
         {
-            var MP = 1 / (Player.Statistic.TimePlayed.Minute + Player.Statistic.TimePlayed.Second / 60);
+            double MP = ((Player.Statistic.TimePlayed.Minute*60.0) + Player.Statistic.TimePlayed.Second )/ 60.0;
+            if (MP >= 0)
+                MP = Math.Pow(((Player.Statistic.TimePlayed.Minute * 60.0) + Player.Statistic.TimePlayed.Second) / 60.0, -1);
+            else
+                MP = 0;
+            MP = MP == double.PositiveInfinity ? 0 : MP;    
             var _3P = Player.Statistic.Shoots.ThreePointScoredPoints;
             var PF = Player.Statistic.Fouls;
             var FT = Player.Statistic.Shoots.FreeThrowsScoredPoints;
@@ -91,8 +96,8 @@ namespace DiplomMag.Mocks
             var STL = Player.Statistic.Steals;
 
             var uPER = MP *
-                (_3P - (PF * CalclgFT / CalclgPF) + (FT / 2 * (2 - (CalctmAST / (3 * CalctmFG)))) + (FG * (2 - (CalcFactor() * CalctmAST / CalctmFG)))
-                + (2 * AST / 3) + CalcVOP() * (CalcDRBP() * (2 * ORB + BLK - 0.2464 * (FTA - FT) - (FGA - FG) - TRB) + ((0.44 * CalclgFTA * PF) / CalclgPF) - (TO + ORB) + STL + TRB - 0.1936 * (FTA - FT)));
+                (_3P - (PF * CalclgFT / CalclgPF) + (FT / 2.0 * (2 - (CalctmAST / (3.0 * CalctmFG)))) + (FG * (2 - (CalcFactor() * CalctmAST / CalctmFG)))
+                + (2.0 * AST / 3.0) + CalcVOP() * (CalcDRBP() * (2.0 * ORB + BLK - 0.2464 * (FTA - FT) - (FGA - FG) - TRB) + ((0.44 * CalclgFTA * PF) / CalclgPF) - (TO + ORB) + STL + TRB - 0.1936 * (FTA - FT)));
             return uPER;
         }
         public double CalctmPOSS() => 0.5 * ((CalctmFGA + 0.4 * CalctmFTA - 1.07 * (CalctmORB / (CalctmORB + CalcOppDRB)) *
@@ -102,8 +107,8 @@ namespace DiplomMag.Mocks
     (CalcOppFGA - CalcOppFG) + CalcOppTOV) + (CalctmFGA + 0.4 * CalctmFTA - 1.07 * (CalctmORB / (CalctmORB + CalcOppDRB)) *
     (CalcOppFGA - CalcOppFG) + CalcOppTOV));
 
-        public double CalcPace() => 40 * ((CalctmPOSS() + CalcOppPOSS()) / (2 * (CalctmMP / 5)));
-        public double CalcHollinger() => (CalcUPer() * (CalclgPace / CalctmPace)*15/CalclgUPer);
+        public double CalcPace() => 40.0 * ((CalctmPOSS() + CalcOppPOSS()) / (2.0 * (CalctmMP / 5.0)));
+        public double CalcHollinger() => (CalcUPer() * (CalclgPace / CalctmPace)*15.0/CalclgUPer);
 
 
     }

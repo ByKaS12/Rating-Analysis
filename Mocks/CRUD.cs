@@ -13,12 +13,18 @@ namespace DiplomMag.Mocks
         }
         public void AddTournament(Tournament tournament)
         {
-            var obj = db.Tournaments.FirstOrDefault(x=>x.Id == tournament.Id);
-            if (obj != null)
+            var obj = db.Tournaments.FirstOrDefault(x=>x.Name == tournament.Name);
+            if (obj == null)
             {
                 db.Tournaments.Add(tournament);
+                db.SaveChanges();
+            }else
+            {
+                obj.Games = tournament.Games;
+                db.Tournaments.Update(obj);
+                db.SaveChanges();
             }
-            db.SaveChanges();
+ //           db.SaveChanges();
         }
         public void AddTeams(List<Team> teams)
         {

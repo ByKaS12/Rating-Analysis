@@ -5,11 +5,11 @@ namespace DiplomMag.models
     public class Player
     {
         public Guid Id { get; set; } = Guid.NewGuid();
-        public string Name { get; set; }
-        public string Surname { get; set; }
+        public string? Name { get; set; } = string.Empty;
+        public string? Surname { get; set; } = string.Empty;
         public double Weight { get; set; }
         public double Height { get; set; }
-        public string PlayerPosition { get; set; }
+        public string? PlayerPosition { get; set; } = string.Empty;
         public virtual Statistic Statistic { get; set; }
         public Guid GameId { get; set; }
         public virtual Game Game { get; set; }

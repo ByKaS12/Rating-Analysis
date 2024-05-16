@@ -10,6 +10,7 @@ namespace DiplomMag.Mocks
     {
         public string Url { get; set; }
         public Tournament Tournament { get; set; }
+        public Guid GameId { get; set; }
         public List<Team> teams { get; set; }
         public GetData(string url)
         {
@@ -26,22 +27,20 @@ namespace DiplomMag.Mocks
         public void WebSrap()
         {
 
-            //var chromeOptions = new ChromeOptions();
-            //chromeOptions.AddArguments("headless");
-            //var driver = new ChromeDriver();
-            //driver.Navigate().GoToUrl(Url);
             var driver = GetDriver();
             var nodesTeamA = driver.FindElements(By.XPath("/html/body/main/div/game-widget/div/div[3]/div[1]/div[2]/div/table/tbody/tr[position()>=1]"));
             var nodesTeamB = driver.FindElements(By.XPath("/html/body/main/div/game-widget/div/div[3]/div[2]/div[2]/div/table/tbody/tr[position()>=1]"));
+            var nodesNameTeams = driver.FindElements(By.XPath("html/body/main/div/game-widget/div/div[1]/div/div/div/div[2]"));
+            var nodesNameTournament = driver.FindElements(By.XPath("html/body/main/div/game-widget/div/div[1]/div/div/div/div[1]"));
             Tournament = new Tournament();
-            Tournament.Name = "Test";
+            Tournament.Name = nodesNameTournament[0].FindElements(By.XPath("div[2]"))[0].Text.Split(",")[0];
             Game game = new Game();
             game.TournamentId = Tournament.Id;
             game.Tournament = Tournament;
             Team teamA = new Team();
-            teamA.Name = "N";
+            teamA.Name = nodesNameTeams[0].FindElements(By.XPath("div[1]"))[0].Text;
             Team teamB = new Team();
-            teamB.Name = "P";
+            teamB.Name = nodesNameTeams[0].FindElements(By.XPath("div[3]"))[0].Text;
 
             List<Player> playersA = new List<Player>();
             for (int i = 0; i < nodesTeamA.Count - 1; i++)
@@ -213,11 +212,10 @@ namespace DiplomMag.Mocks
             }
             game.Players.AddRange(playersB);
             teamB.Players.AddRange(playersB);
+            GameId = game.Id;
             Tournament.Games.Add(game);
-            teams.Add(teamA);
-            teams.Add(teamB);
-            _ = 1;
-
+            teams = [teamA, teamB];
+            driver.Close();
 
         }
     }

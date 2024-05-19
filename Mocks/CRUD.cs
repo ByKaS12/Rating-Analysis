@@ -11,7 +11,7 @@ namespace DiplomMag.Mocks
         {
             db = context;
         }
-        public Guid AddTournament(Tournament tournament)
+        public Guid AddTournament(Tournament tournament,List<Team> teams)
         {
             Tournament? obj = db.Tournaments.ToList().Find(x => x.Name == tournament.Name);
             if (obj == null)
@@ -30,6 +30,8 @@ namespace DiplomMag.Mocks
                 obj.Games.Add(game);
                 db.Tournaments.Update(obj);
                 db.Games.Add(game);
+                db.Players.AddRange(game.Players);
+				//db.Teams.AddRange(teams);
                 db.SaveChanges();
                 return Guid.Empty;
             }

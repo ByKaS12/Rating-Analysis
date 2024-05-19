@@ -17,12 +17,8 @@ namespace DiplomMag.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
-        {
+        public IActionResult Index() => View(null);
 
-            return View(null);
-
-        }
         public ViewResult ViewPlayers(string url)
         {
             //string url = "https://moscow.ilovebasket.ru/games/821310?apiUrl=https://reg.infobasket.su&lang=ru#protocol";
@@ -31,15 +27,16 @@ namespace DiplomMag.Controllers
                 var test = new GetData(url);
                 var db = new CRUD(_context);
                 test.WebSrap();
-                var findId = db.AddTournament(DataCollection.DataCollect(test.Tournament, test.GameId));
+                var findId = db.AddTournament(DataCollection.DataCollect(test.Tournament, test.GameId),test.teams);
             List<Player> Model;
             Model = findId == Guid.Empty ? db.ViewGame(test.GameId) : db.ViewGame(findId);
-			return View("Index", Model);
+                return View("Index", Model);
+			
+
 		}
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+        public IActionResult Privacy()=> View();
+        public ViewResult ViewPlayer(Guid id) => View(_context.Players.FirstOrDefault(x=>x.Id == id));
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

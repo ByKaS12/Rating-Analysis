@@ -62,7 +62,7 @@
 					@foreach (var item in Model)
 					{
 						<tr>
-							<td>@item.Name @item.Surname</td>
+							<td><a class="link-primary" asp-controller="Home" asp-action="ViewPlayer" asp-route-id="@item.Id">@item.Name @item.Surname</a></td>
 							<td>@item.Statistic.TimePlayed</td>
 							<td>@item.Statistic.Points</td>
 							<td>@item.Statistic.Shoots.TwoPointScoredPoints/@item.Statistic.Shoots.TwoPointAllPoints</td>
@@ -83,7 +83,6 @@
 							<td>@Math.Round(@item.Statistic.CalcPace,2)</td>
 							<td>@Math.Round(item.Statistic.CalcHollinger,2)</td>
 							<td>TODO TDA</td>
-							<td hidden>@item.Id</td>
 						</tr>
 					}
 

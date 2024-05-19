@@ -33,10 +33,12 @@ namespace DiplomMag.Mocks
             var nodesNameTeams = driver.FindElements(By.XPath("html/body/main/div/game-widget/div/div[1]/div/div/div/div[2]"));
             var nodesNameTournament = driver.FindElements(By.XPath("html/body/main/div/game-widget/div/div[1]/div/div/div/div[1]"));
             Tournament = new Tournament();
-            Tournament.Name = nodesNameTournament[0].FindElements(By.XPath("div[2]"))[0].Text.Split(",")[0];
+
+			Tournament.Name = nodesNameTournament[0].FindElements(By.XPath("div[2]"))[0].Text.Split(",")[0];
             Game game = new Game();
             game.TournamentId = Tournament.Id;
             game.Tournament = Tournament;
+            game.GameDate = nodesNameTournament[0].FindElements(By.XPath("div[1]"))[0].Text.Split(",")[0];
             Team teamA = new Team();
             teamA.Name = nodesNameTeams[0].FindElements(By.XPath("div[1]"))[0].Text;
             Team teamB = new Team();

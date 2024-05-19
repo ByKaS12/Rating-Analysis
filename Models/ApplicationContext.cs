@@ -14,7 +14,7 @@ namespace DiplomMag.Models
 
         public ApplicationContext()
         {
-            _ = Database.EnsureCreated();
+           // _ = Database.EnsureCreated();
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

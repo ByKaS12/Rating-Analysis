@@ -11,21 +11,32 @@ namespace DiplomMag.Mocks
         {
             db = context;
         }
-        public void AddTournament(Tournament tournament)
+        public Guid AddTournament(Tournament tournament)
         {
-            var obj = db.Tournaments.FirstOrDefault(x=>x.Name == tournament.Name);
+            Tournament? obj = db.Tournaments.ToList().Find(x => x.Name == tournament.Name);
             if (obj == null)
             {
                 db.Tournaments.Add(tournament);
                 db.SaveChanges();
+                return Guid.Empty;
             }else
             {
-                obj.Games = tournament.Games;
+                var gameFind = obj.Games.Find(x => x.GameDate == tournament.Games[0].GameDate);
+
+				if (gameFind!=null) return gameFind.Id;
+                var game = tournament.Games[0];
+                game.Tournament = obj;
+                game.TournamentId = obj.Id;
+                obj.Games.Add(game);
                 db.Tournaments.Update(obj);
+                db.Games.Add(game);
                 db.SaveChanges();
+                return Guid.Empty;
             }
  //           db.SaveChanges();
         }
+        public List<Player> ViewGame(Guid gameId) => db.Players.ToList().FindAll(x=>x.GameId == gameId);
+
         public void AddTeams(List<Team> teams)
         {
             foreach (var team in teams)

@@ -1,8 +1,95 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-
+@model IEnumerable<DiplomMag.models.Player>?
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    
+	@if(Model==null || Model.Count()==0){
+		<h1 class="display-4">Welcome</h1>
+		<div>
+			<form asp-action="ViewPlayers" asp-controller="Home">
+				<fieldset class="fieldset">
+					<legend class="legend">Введите ссылку на протокол матча</legend>
+					<div class="mb-3">
+						<label class="form-label">Url</label>
+						<input class="form-control" type="text" name="url"/>
+					</div>
+					<div class="mb-3">
+						<button class="btn btn-primary" type="submit">Добавить</button>
+					</div>
+				</fieldset>
+            </form>
+		</div>
+	}
+	@if(Model?.Count()>1)
+	{
+		<h1 class="display-4">Результаты матча</h1>
+		<br />
+		<div>
+			<table class="table-primary table-hover table-bordered table align-middle">
+				<thead class="align-middle">
+					<tr>
+						<td rowspan="2">Игрок</td>
+						<td rowspan="2">СВ</td>
+						<td rowspan="2">Очки</td>
+						<td colspan="4">Броски</td>
+						<td colspan="3">Подборы</td>
+						<td rowspan="2">ГП</td>
+						<td rowspan="2">ПХ</td>
+						<td rowspan="2">ПТ</td>
+						<td rowspan="2">БШ</td>
+						<td rowspan="2">Ф</td>
+						<td rowspan="2">ФС</td>
+						<td rowspan="2">+/-</td>
+						<td rowspan="2">КПИ</td>
+						<td rowspan="2">PACE</td>
+						<td rowspan="2">PER</td>
+						<td rowspan="2">TPA</td>
+						<td hidden rowspan="2"></td>
+					</tr>
+					<tr>
+						<td>2-очк</td>
+						<td>3-очк</td>
+						<td>И</td>
+						<td>ШБ</td>
+						<td>СЩ</td>
+						<td>ЧЩ</td>
+						<td>ВС</td>
+					</tr>
+				</thead>
+				<tbody class="table-group-divider">
+					@foreach (var item in Model)
+					{
+						<tr>
+							<td>@item.Name @item.Surname</td>
+							<td>@item.Statistic.TimePlayed</td>
+							<td>@item.Statistic.Points</td>
+							<td>@item.Statistic.Shoots.TwoPointScoredPoints/@item.Statistic.Shoots.TwoPointAllPoints</td>
+							<td>@item.Statistic.Shoots.ThreePointScoredPoints/@item.Statistic.Shoots.ThreePointAllPoints</td>
+							<td>@item.Statistic.Shoots.FieldGoalsScoredPoints/@item.Statistic.Shoots.FieldGoalsAllPoints</td>
+							<td>@item.Statistic.Shoots.FreeThrowsScoredPoints/@item.Statistic.Shoots.FreeThrowsAllPoints</td>
+							<td>@item.Statistic.Rebounds.RebOfOwn</td>
+							<td>@item.Statistic.Rebounds.RebOfAlien</td>
+							<td>@item.Statistic.Rebounds.AllReb</td>
+							<td>@item.Statistic.Assists</td>
+							<td>@item.Statistic.Steals</td>
+							<td>@item.Statistic.Losses</td>
+							<td>@item.Statistic.Blockshots</td>
+							<td>@item.Statistic.Fouls</td>
+							<td>@item.Statistic.FoulsOfEnemy</td>
+							<td>@item.Statistic.PlusMinus</td>
+							<td>@item.Statistic.KPI</td>
+							<td>@Math.Round(@item.Statistic.CalcPace,2)</td>
+							<td>@Math.Round(item.Statistic.CalcHollinger,2)</td>
+							<td>TODO TDA</td>
+							<td hidden>@item.Id</td>
+						</tr>
+					}
+
+				</tbody>
+			</table>
+		</div>
+	}
+	
 </div>

@@ -1,4 +1,5 @@
 ﻿using DiplomMag.Mocks;
+using DiplomMag.models;
 using DiplomMag.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -18,21 +19,23 @@ namespace DiplomMag.Controllers
 
         public IActionResult Index()
         {
-            //string url = "https://moscow.ilovebasket.ru/games/821312?apiUrl=https://reg.infobasket.su&lang=ru#protocol";
+
+            return View(null);
+
+        }
+        public ViewResult ViewPlayers(string url)
+        {
+            //string url = "https://moscow.ilovebasket.ru/games/821310?apiUrl=https://reg.infobasket.su&lang=ru#protocol";
             //string url = "https://moscow.ilovebasket.ru/games/821308?apiUrl=https://reg.infobasket.su&lang=ru#protocol";
-            for (int i = 0; i <= 8; i++)
-            {
-                string url = "https://moscow.ilovebasket.ru/games/82130" + (1 + i) + "?apiUrl=https://reg.infobasket.su&lang=ru#protocol";
+            if (string.IsNullOrEmpty(url)) return View("Index",null);
                 var test = new GetData(url);
                 var db = new CRUD(_context);
                 test.WebSrap();
-                db.AddTournament(DataCollection.DataCollect(test.Tournament, test.GameId));
-                
-            }
-            return View();
-
-        }
-
+                var findId = db.AddTournament(DataCollection.DataCollect(test.Tournament, test.GameId));
+            List<Player> Model;
+            Model = findId == Guid.Empty ? db.ViewGame(test.GameId) : db.ViewGame(findId);
+			return View("Index", Model);
+		}
         public IActionResult Privacy()
         {
             return View();

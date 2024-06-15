@@ -19,6 +19,11 @@
         public double CalcUPer { get; set; }
         public double CalcPace { get; set; }
         public double CalcHollinger { get; set; }
+        public double CalcTPA { get; set; }
+        public double CalcEFGProcent { get; set; }
+        public double CalcTSProcent { get; set; }
+        public double CalcOffRating { get; set; }
+        public double CalcDefRating { get; set; }
 
         public Guid PlayerId { get; set; }
         public virtual Player Player { get; set; }

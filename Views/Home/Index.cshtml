@@ -31,7 +31,8 @@
 				<thead class="align-middle">
 					<tr>
 						<td rowspan="2">Игрок</td>
-						<td rowspan="2">СВ</td>
+						<td rowspan="2">Команда</td>
+						<td style="min-width:65px" rowspan="2">СВ</td>
 						<td rowspan="2">Очки</td>
 						<td colspan="4">Броски</td>
 						<td colspan="3">Подборы</td>
@@ -43,10 +44,13 @@
 						<td rowspan="2">ФС</td>
 						<td rowspan="2">+/-</td>
 						<td rowspan="2">КПИ</td>
+						<td rowspan="2">eFG%</td>
+						<td rowspan="2">TS%</td>
 						<td rowspan="2">PACE</td>
+						<td rowspan="2">OffRating</td>
+						<td rowspan="2">DefRating</td>
 						<td rowspan="2">PER</td>
 						<td rowspan="2">TPA</td>
-						<td hidden rowspan="2"></td>
 					</tr>
 					<tr>
 						<td>2-очк</td>
@@ -63,7 +67,8 @@
 					{
 						<tr>
 							<td><a class="link-primary" asp-controller="Home" asp-action="ViewPlayer" asp-route-id="@item.Id">@item.Name @item.Surname</a></td>
-							<td>@item.Statistic.TimePlayed</td>
+							<td>@item.Team.Name</td>
+							<td>@item.Statistic.TimePlayed.Minute:@item.Statistic.TimePlayed.Second</td>
 							<td>@item.Statistic.Points</td>
 							<td>@item.Statistic.Shoots.TwoPointScoredPoints/@item.Statistic.Shoots.TwoPointAllPoints</td>
 							<td>@item.Statistic.Shoots.ThreePointScoredPoints/@item.Statistic.Shoots.ThreePointAllPoints</td>
@@ -80,10 +85,13 @@
 							<td>@item.Statistic.FoulsOfEnemy</td>
 							<td>@item.Statistic.PlusMinus</td>
 							<td>@item.Statistic.KPI</td>
+							<td>@Math.Round(@item.Statistic.CalcEFGProcent, 2)</td>
+							<td>@Math.Round(@item.Statistic.CalcTSProcent, 2)</td>
 							<td>@Math.Round(@item.Statistic.CalcPace,2)</td>
+							<td>@Math.Round(item.Statistic.CalcOffRating, 2)</td>
+							<td>@Math.Round(item.Statistic.CalcDefRating, 2)</td>
 							<td>@Math.Round(item.Statistic.CalcHollinger,2)</td>
-							<td>TODO TDA</td>
-						</tr>
+							<td>@Math.Round(item.Statistic.CalcTPA, 2)</td>						</tr>
 					}
 
 				</tbody>

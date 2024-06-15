@@ -30,7 +30,10 @@ namespace DiplomMag.Controllers
                 var findId = db.AddTournament(DataCollection.DataCollect(test.Tournament, test.GameId),test.teams);
             List<Player> Model;
             Model = findId == Guid.Empty ? db.ViewGame(test.GameId) : db.ViewGame(findId);
-                return View("Index", Model);
+            var SortModel = from item in Model
+                       orderby item.TeamId
+                       select item;
+                return View("Index", SortModel);
 			
 
 		}

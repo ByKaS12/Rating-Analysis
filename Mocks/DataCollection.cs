@@ -24,8 +24,16 @@ namespace DiplomMag.Mocks
             {
                 var dataAnalysis = new DataAnalysis(game, item);
                 item.Statistic.CalcHollinger = dataAnalysis.CalcHollinger() == double.NaN || dataAnalysis.CalcHollinger()<0 ? 0 : dataAnalysis.CalcHollinger();
-            }
-            return data;
+				item.Statistic.CalcTPA = dataAnalysis.CalcTPA() == double.NaN ? 0 : dataAnalysis.CalcTPA()/1000.0;
+				item.Statistic.CalcOffRating = dataAnalysis.CalcOffRating() == double.NaN ? 0 : dataAnalysis.CalcOffRating()/1000.0;
+				item.Statistic.CalcDefRating = dataAnalysis.CalcDefRating() == double.NaN ? 0 : dataAnalysis.CalcDefRating()/1000.0;
+                var test2 = dataAnalysis.CalcEFGProcent();
+				item.Statistic.CalcEFGProcent = double.IsNaN(dataAnalysis.CalcEFGProcent()) || double.IsInfinity(dataAnalysis.CalcEFGProcent()) ? 0 : dataAnalysis.CalcEFGProcent();
+				var test = dataAnalysis.CalcTSProcent();
+				item.Statistic.CalcTSProcent = double.IsNaN(dataAnalysis.CalcTSProcent()) || double.IsInfinity(dataAnalysis.CalcTSProcent()) ? 0 : dataAnalysis.CalcTSProcent();
+			}
+
+			return data;
         }
     }
 }

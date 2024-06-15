@@ -1,4 +1,5 @@
 ﻿using DiplomMag.models;
+using DiplomMag.Models;
 
 
 namespace DiplomMag.Mocks
@@ -110,7 +111,12 @@ namespace DiplomMag.Mocks
         public double CalcPace() => 40.0 * ((CalctmPOSS() + CalcOppPOSS()) / (2.0 * (CalctmMP / 5.0)));
         // 
         public double CalcHollinger() => 0.8*(CalcUPer() * (CalclgPace / CalctmPace)*15.0/CalclgUPer);
+        public double CalcTPA() => Player.Statistic.PlusMinus*Player.Statistic.CalcPace*(Player.Statistic.TimePlayed.Minute+ Player.Statistic.TimePlayed.Second/60.0);
+        public double CalcOffRating() => Game.Players.FindAll(x => x.TeamId == Player.TeamId).Sum(x => x.Statistic.Points)*100/CalctmPOSS();
+        public double CalcDefRating() => Game.Players.FindAll(x => x.TeamId != Player.TeamId).Sum(x => x.Statistic.Points) * 100 / CalctmPOSS();
+        public double CalcEFGProcent() => (Player.Statistic.Shoots.FieldGoalsScoredPoints+ 0.5*Player.Statistic.Shoots.ThreePointScoredPoints)/Player.Statistic.Shoots.FieldGoalsAllPoints;
+        public double CalcTSProcent() => Player.Statistic.Points/(2*(Player.Statistic.Shoots.FieldGoalsAllPoints+(0.44* Player.Statistic.Shoots.FreeThrowsAllPoints)));
 
 
-    }
+	}
 }

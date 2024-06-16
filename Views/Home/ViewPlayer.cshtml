@@ -12,57 +12,57 @@
     <title>ViewPlayer</title>
 </head>
 <body>
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-md-auto">
+                <img src="https://reg.infobasket.su/Widget/GetPersonPhoto/53749?d=1&compId=74918" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                @Model.Surname
+            </div>
+            <div class="col">
+                @Model.Name
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">AveragePoints</div>
+            <div class="col">Average +/-</div>
+            <div class="col">Average KPI</div>
+            <div class="col">Average eFG%</div>
+        </div>
+        <div class="row">
+            <div class="col">@Model.Statistic.Points</div>
+            <div class="col">@Model.Statistic.PlusMinus</div>
+            <div class="col">@Model.Statistic.KPI</div>
+            <div class="col">@Model.Statistic.CalcEFGProcent</div>
+        </div>
+        <div class="row">
+            <div class="col">Average TS%</div>
+            <div class="col">Average Pace</div>
+            <div class="col">Average OffRating</div>
+            <div class="col">Average DefRating</div>
+        </div>
+        <div class="row">
+            <div class="col">@Model.Statistic.CalcTSProcent</div>
+            <div class="col">@Model.Statistic.CalcPace</div>
+            <div class="col">@Model.Statistic.CalcOffRating</div>
+            <div class="col">@Model.Statistic.CalcDefRating</div>
+        </div>
+        <div class="row">
+            <div class="col">Average TPA</div>
+            <div class="col">Rating Hollinger</div>
+        </div>
+        <div class="row">
+            <div class="col">@Model.Statistic.CalcTPA</div>
+            <div class="col">@Model.Statistic.CalcHollinger</div>
+        </div>
 
-<div>
-    <h4>Player</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Surname)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Surname)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Weight)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Weight)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Height)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Height)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PlayerPosition)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PlayerPosition)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Game)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Game.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Team)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Team.Id)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
 </body>
 </html>

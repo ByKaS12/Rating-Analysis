@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DiplomMag.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20240512125723_MigFixV1")]
-    partial class MigFixV1
+    [Migration("20240616202944_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,6 +45,10 @@ namespace DiplomMag.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("GameDate")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<Guid>("TournamentId")
                         .HasColumnType("TEXT");
 
@@ -68,15 +72,12 @@ namespace DiplomMag.Migrations
                         .HasColumnType("REAL");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PlayerPosition")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Surname")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("TeamId")
@@ -173,7 +174,28 @@ namespace DiplomMag.Migrations
                     b.Property<int>("Blockshots")
                         .HasColumnType("INTEGER");
 
+                    b.Property<double>("CalcDefRating")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("CalcEFGProcent")
+                        .HasColumnType("REAL");
+
                     b.Property<double>("CalcHollinger")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("CalcOffRating")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("CalcPace")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("CalcTPA")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("CalcTSProcent")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("CalcUPer")
                         .HasColumnType("REAL");
 
                     b.Property<int>("Fouls")

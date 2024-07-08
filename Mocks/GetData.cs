@@ -48,10 +48,14 @@ namespace DiplomMag.Mocks
             List<Player> playersA = new List<Player>();
             for (int i = 0; i < nodesTeamA.Count - 1; i++)
             {
+                var PhotoPath = nodesTeamA[i].FindElements(By.XPath("td[2]"))[0].FindElement(By.XPath("div/a/img")).GetAttribute("src");
+                PhotoPath = PhotoPath != "" ? PhotoPath : "https://placehold.co/500";
                 var Name = nodesTeamA[i].FindElements(By.XPath("td[3]"))[0].Text.Split(" ");
                 var Time = nodesTeamA[i].FindElements(By.XPath("td[4]"))[0].Text.Split(":");
-                //var Points = nodesTeamA[i].FindElements(By.XPath("td[5]"))[0].Text;
-                var TwoPoint = nodesTeamA[i].FindElements(By.XPath("td[6]"))[0].Text.Split("/");
+
+                var Points = nodesTeamA[i].FindElements(By.XPath("td[5]"))[0].Text;
+				Points = Points != "" ? Points : "0";
+				var TwoPoint = nodesTeamA[i].FindElements(By.XPath("td[6]"))[0].Text.Split("/");
                 TwoPoint = TwoPoint[0] != "" ? TwoPoint : ["0", "0"];
                 var ThreePoint = nodesTeamA[i].FindElements(By.XPath("td[7]"))[0].Text.Split("/");
                 ThreePoint = ThreePoint[0] != "" ? ThreePoint : ["0", "0"];
@@ -84,6 +88,7 @@ namespace DiplomMag.Mocks
                 player.Surname = Name[0];
                 player.Game = game;
                 player.Team = teamA;
+                player.PhotoPath = PhotoPath;
                 db.AddPlayer(player);
                 Statistic statistic = new Statistic()
                 {
@@ -98,10 +103,11 @@ namespace DiplomMag.Mocks
                     FoulsOfEnemy = Convert.ToInt32(FoulsEnemy),
                     PlusMinus = Convert.ToInt32(PlusMinus),
                     KPI = Convert.ToInt32(KPI),
+					Points = Convert.ToInt32(Points)
 
 
 
-                };
+				};
                 db.AddStatistic(statistic);
                 Shoot shoots = new Shoot()
                 {
@@ -112,15 +118,19 @@ namespace DiplomMag.Mocks
                     ThreePointScoredPoints = Convert.ToInt32(ThreePoint[0]),
                     ThreePointAllPoints = Convert.ToInt32(ThreePoint[1]),
                     FreeThrowsScoredPoints = Convert.ToInt32(FreeThrows[0]),
-                    FreeThrowsAllPoints = Convert.ToInt32(FreeThrows[1])
+                    FreeThrowsAllPoints = Convert.ToInt32(FreeThrows[1]),
+                    _FieldGoalsAllPoints = 0,
+                    _FieldGoalsScoredPoints = 0
+                    
                 };
                 db.AddShoot(shoots);
                 var rebs = new Rebound()
                 {
-					Statistic = statistic,
-					StatisticId = statistic.Id,
-					RebOfAlien = Convert.ToInt32(ReboundEnemy),
-                    RebOfOwn = Convert.ToInt32(ReboundOur)
+                    Statistic = statistic,
+                    StatisticId = statistic.Id,
+                    RebOfAlien = Convert.ToInt32(ReboundEnemy),
+                    RebOfOwn = Convert.ToInt32(ReboundOur),
+                    _AllReb = 0
                 };
                 db.AddRebound(rebs);
                 statistic.Shoots = shoots;
@@ -135,10 +145,13 @@ namespace DiplomMag.Mocks
             List<Player> playersB = new List<Player>();
             for (int i = 0; i < nodesTeamB.Count - 1; i++)
             {
+                var PhotoPath = nodesTeamB[i].FindElements(By.XPath("td[2]"))[0].FindElement(By.XPath("div/a/img")).GetAttribute("src");
+                PhotoPath = PhotoPath != "" ? PhotoPath : "https://placehold.co/500";
                 var Name = nodesTeamB[i].FindElements(By.XPath("td[3]"))[0].Text.Split(" ");
                 var Time = nodesTeamB[i].FindElements(By.XPath("td[4]"))[0].Text.Split(":");
                 var Points = nodesTeamB[i].FindElements(By.XPath("td[5]"))[0].Text;
-                var TwoPoint = nodesTeamB[i].FindElements(By.XPath("td[6]"))[0].Text.Split("/");
+				Points = Points != "" ? Points : "0";
+				var TwoPoint = nodesTeamB[i].FindElements(By.XPath("td[6]"))[0].Text.Split("/");
                 TwoPoint = TwoPoint[0] != "" ? TwoPoint : ["0", "0"];
                 var ThreePoint = nodesTeamB[i].FindElements(By.XPath("td[7]"))[0].Text.Split("/");
                 ThreePoint = ThreePoint[0] != "" ? ThreePoint : ["0", "0"];
@@ -171,6 +184,7 @@ namespace DiplomMag.Mocks
                 player.Surname = Name[1];
                 player.Game = game;
                 player.Team = teamB;
+                player.PhotoPath = PhotoPath;
                 db.AddPlayer(player);
                 Statistic statistic = new Statistic()
                 {
@@ -184,9 +198,7 @@ namespace DiplomMag.Mocks
                     FoulsOfEnemy = Convert.ToInt32(FoulsEnemy),
                     PlusMinus = Convert.ToInt32(PlusMinus),
                     KPI = Convert.ToInt32(KPI),
-
-
-
+                    Points = Convert.ToInt32(Points)
                 };
                 db.AddStatistic(statistic);
                 Shoot shoots = new Shoot()
@@ -198,16 +210,19 @@ namespace DiplomMag.Mocks
                     ThreePointScoredPoints = Convert.ToInt32(ThreePoint[0]),
                     ThreePointAllPoints = Convert.ToInt32(ThreePoint[1]),
                     FreeThrowsScoredPoints = Convert.ToInt32(FreeThrows[0]),
-                    FreeThrowsAllPoints = Convert.ToInt32(FreeThrows[1])
-                };
+                    FreeThrowsAllPoints = Convert.ToInt32(FreeThrows[1]),
+					_FieldGoalsAllPoints = 0,
+					_FieldGoalsScoredPoints = 0
+				};
                 db.AddShoot(shoots);
                 var rebs = new Rebound()
                 {
 					Statistic = statistic,
 					StatisticId = statistic.Id,
 					RebOfAlien = Convert.ToInt32(ReboundEnemy),
-                    RebOfOwn = Convert.ToInt32(ReboundOur)
-                };
+                    RebOfOwn = Convert.ToInt32(ReboundOur),
+					_AllReb = 0
+				};
                 db.AddRebound(rebs);
                 statistic.Shoots = shoots;
                 statistic.Rebounds = rebs;

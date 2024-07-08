@@ -10,6 +10,7 @@ namespace DiplomMag.models
         public double Weight { get; set; }
         public double Height { get; set; }
         public string? PlayerPosition { get; set; } = string.Empty;
+        public string? PhotoPath { get; set; } = string.Empty;
         public virtual Statistic Statistic { get; set; }
         public Guid GameId { get; set; }
         public virtual Game Game { get; set; }

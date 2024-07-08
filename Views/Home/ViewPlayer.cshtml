@@ -1,66 +1,62 @@
-﻿@model DiplomMag.models.Player
+﻿
+<div class="text-center"><h1 class="display-4">Карточка игрока</h1></div>
 
 
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>ViewPlayer</title>
-</head>
-<body>
-    <div class="container text-center">
-        <div class="row">
-            <div class="col-md-auto">
-                <img src="https://reg.infobasket.su/Widget/GetPersonPhoto/53749?d=1&compId=74918" />
-            </div>
-        </div>
+    <div class="container text-center border">
         <div class="row">
             <div class="col">
-                @Model.Surname
-            </div>
-            <div class="col">
-                @Model.Name
+                <img src="@Model.PhotoPath" width="500px">
             </div>
         </div>
-        <div class="row">
+        <div class="row fs-1 fw-bold p-3 border">
+            <div class="col ">
+            @Model.Surname
+            </div>
+            <div class="col ">
+            @Model.Name
+            </div>
+        </div>
+        <div class="row fs-2 fw-bold p-3 border" width="500px">
             <div class="col">AveragePoints</div>
             <div class="col">Average +/-</div>
             <div class="col">Average KPI</div>
             <div class="col">Average eFG%</div>
         </div>
-        <div class="row">
-            <div class="col">@Model.Statistic.Points</div>
-            <div class="col">@Model.Statistic.PlusMinus</div>
-            <div class="col">@Model.Statistic.KPI</div>
-            <div class="col">@Model.Statistic.CalcEFGProcent</div>
+        <div class="row fs-3 border">
+        <div class="col">@Model.Statistic.Points </div>
+        <div class="col">@Model.Statistic.PlusMinus</div>
+        <div class="col">@Model.Statistic.KPI</div>
+        <div class="col">@Math.Round(Model.Statistic.CalcEFGProcent,2)</div>
         </div>
-        <div class="row">
+        <div class="row fs-2 fw-bold p-3 border">
             <div class="col">Average TS%</div>
             <div class="col">Average Pace</div>
             <div class="col">Average OffRating</div>
             <div class="col">Average DefRating</div>
         </div>
-        <div class="row">
-            <div class="col">@Model.Statistic.CalcTSProcent</div>
-            <div class="col">@Model.Statistic.CalcPace</div>
-            <div class="col">@Model.Statistic.CalcOffRating</div>
-            <div class="col">@Model.Statistic.CalcDefRating</div>
+        <div class="row fs-3 border">
+        <div class="col">@Math.Round(Model.Statistic.CalcTSProcent,2)</div>
+        <div class="col">@Math.Round(Model.Statistic.CalcPace,2)</div>
+        <div class="col">@Math.Round(Model.Statistic.CalcOffRating,2)</div>
+        <div class="col">@Math.Round(Model.Statistic.CalcDefRating,2)</div>
         </div>
-        <div class="row">
+        <div class="row fs-1 fw-bold p-3 border">
             <div class="col">Average TPA</div>
             <div class="col">Rating Hollinger</div>
         </div>
-        <div class="row">
-            <div class="col">@Model.Statistic.CalcTPA</div>
-            <div class="col">@Model.Statistic.CalcHollinger</div>
+        <div class="row fs-2 border">
+        <div class="col">@Math.Round(@Model.Statistic.CalcTPA,2)</div>
+        <div class="col">@Math.Round(Model.Statistic.CalcHollinger,2)</div>
         </div>
 
     </div>
 
-    <div>
-        <a asp-action="Index">Back to List</a>
+    <div style="
+    visibility: hidden;
+">
+        <a href="/">Back to List</a>
     </div>
-</body>
-</html>
+<script src="/_framework/aspnetcore-browser-refresh.js"></script>
+
+
+        </main>

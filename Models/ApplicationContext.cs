@@ -36,15 +36,14 @@ namespace DiplomMag.Models
 		{
 			modelBuilder.Entity<Statistic>()
 		   .HasOne(e => e.Shoots)
-		   .WithOne()
+		   .WithOne(n=>n.Statistic)
 		   .HasForeignKey<Shoot>(e => e.StatisticId);
 
 			modelBuilder.Entity<Statistic>()
 		   .HasOne(e => e.Rebounds)
-		   .WithOne()
+		   .WithOne(n => n.Statistic)
 		   .HasForeignKey<Rebound>(e => e.StatisticId);
 
-			modelBuilder.Entity<Statistic>().Ignore(e => e._points);
 			modelBuilder.Entity<Rebound>().Ignore(e => e._AllReb);
 			modelBuilder.Entity<Shoot>().Ignore(e => e._FieldGoalsAllPoints);
 			modelBuilder.Entity<Shoot>().Ignore(e => e._FieldGoalsScoredPoints);

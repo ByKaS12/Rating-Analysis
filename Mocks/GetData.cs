@@ -10,11 +10,13 @@ namespace DiplomMag.Mocks
     {
         public string Url { get; set; }
         public Tournament Tournament { get; set; }
-        public Guid GameId { get; set; }
+        public string GameDate { get; set; }
         public List<Team> teams { get; set; }
-        public GetData(string url)
+        public CRUD db;
+        public GetData(string url,CRUD _db)
         {
             Url = url;
+            db= _db;
         }
         public ChromeDriver GetDriver()
         {
@@ -33,16 +35,17 @@ namespace DiplomMag.Mocks
             var nodesNameTeams = driver.FindElements(By.XPath("html/body/main/div/game-widget/div/div[1]/div/div/div/div[2]"));
             var nodesNameTournament = driver.FindElements(By.XPath("html/body/main/div/game-widget/div/div[1]/div/div/div/div[1]"));
             Tournament = new Tournament();
-
 			Tournament.Name = nodesNameTournament[0].FindElements(By.XPath("div[2]"))[0].Text.Split(",")[0];
+            db.AddTournament(Tournament);
             Game game = new Game();
-            game.TournamentId = Tournament.Id;
             game.Tournament = Tournament;
             game.GameDate = nodesNameTournament[0].FindElements(By.XPath("div[1]"))[0].Text.Split(",")[0];
+            db.AddGame(game);
             Team teamA = new Team();
             teamA.Name = nodesNameTeams[0].FindElements(By.XPath("div[1]"))[0].Text;
             Team teamB = new Team();
             teamB.Name = nodesNameTeams[0].FindElements(By.XPath("div[3]"))[0].Text;
+            db.AddTeams(new List<Team> { teamA, teamB });
 
             List<Player> playersA = new List<Player>();
             for (int i = 0; i < nodesTeamA.Count - 1; i++)
@@ -81,13 +84,12 @@ namespace DiplomMag.Mocks
                 Player player = new Player();
                 player.Name = Name[1];
                 player.Surname = Name[0];
-                player.GameId = game.Id;
                 player.Game = game;
-                player.TeamId = teamA.Id;
                 player.Team = teamA;
+                db.AddPlayer(player);
                 Statistic statistic = new Statistic()
                 {
-                    PlayerId = player.Id,
+                    
                     Player = player,
                     TimePlayed = new TimeOnly(0, Convert.ToInt32(Time[0]), Convert.ToInt32(Time[1])),
                     Assists = Convert.ToInt32(Assists),
@@ -102,9 +104,9 @@ namespace DiplomMag.Mocks
 
 
                 };
+                db.AddStatistic(statistic);
                 Shoot shoots = new Shoot()
                 {
-                    StatisticId = statistic.Id,
                     Statistic = statistic,
                     TwoPointScoredPoints = Convert.ToInt32(TwoPoint[0]),
                     TwoPointAllPoints = Convert.ToInt32(TwoPoint[1]),
@@ -113,21 +115,22 @@ namespace DiplomMag.Mocks
                     FreeThrowsScoredPoints = Convert.ToInt32(FreeThrows[0]),
                     FreeThrowsAllPoints = Convert.ToInt32(FreeThrows[1])
                 };
+                db.AddShoot(shoots);
                 var rebs = new Rebound()
                 {
-                    StatisticId = statistic.Id,
                     Statistic = statistic,
                     RebOfAlien = Convert.ToInt32(ReboundEnemy),
                     RebOfOwn = Convert.ToInt32(ReboundOur)
                 };
+                db.AddRebound(rebs);
                 statistic.Shoots = shoots;
                 statistic.Rebounds = rebs;
 
-                player.Statistic = statistic;
+               player.Statistic = statistic;
                 playersA.Add(player);
 
             }
-            game.Players.AddRange(playersA);
+            //game.Players.AddRange(playersA);
             teamA.Players.AddRange(playersA);
             List<Player> playersB = new List<Player>();
             for (int i = 0; i < nodesTeamB.Count - 1; i++)
@@ -166,13 +169,11 @@ namespace DiplomMag.Mocks
                 Player player = new Player();
                 player.Name = Name[0];
                 player.Surname = Name[1];
-                player.GameId = game.Id;
                 player.Game = game;
-                player.TeamId = teamB.Id;
                 player.Team = teamB;
+                db.AddPlayer(player);
                 Statistic statistic = new Statistic()
                 {
-                    PlayerId = player.Id,
                     Player = player,
                     TimePlayed = new TimeOnly(0, Convert.ToInt32(Time[0]), Convert.ToInt32(Time[1])),
                     Assists = Convert.ToInt32(Assists),
@@ -187,9 +188,9 @@ namespace DiplomMag.Mocks
 
 
                 };
+                db.AddStatistic(statistic);
                 Shoot shoots = new Shoot()
                 {
-                    StatisticId = statistic.Id,
                     Statistic = statistic,
                     TwoPointScoredPoints = Convert.ToInt32(TwoPoint[0]),
                     TwoPointAllPoints = Convert.ToInt32(TwoPoint[1]),
@@ -198,13 +199,14 @@ namespace DiplomMag.Mocks
                     FreeThrowsScoredPoints = Convert.ToInt32(FreeThrows[0]),
                     FreeThrowsAllPoints = Convert.ToInt32(FreeThrows[1])
                 };
+                db.AddShoot(shoots);
                 var rebs = new Rebound()
                 {
-                    StatisticId = statistic.Id,
                     Statistic = statistic,
                     RebOfAlien = Convert.ToInt32(ReboundEnemy),
                     RebOfOwn = Convert.ToInt32(ReboundOur)
                 };
+                db.AddRebound(rebs);
                 statistic.Shoots = shoots;
                 statistic.Rebounds = rebs;
 
@@ -212,10 +214,10 @@ namespace DiplomMag.Mocks
                 playersB.Add(player);
 
             }
-            game.Players.AddRange(playersB);
+            //game.Players.AddRange(playersB);
             teamB.Players.AddRange(playersB);
-            GameId = game.Id;
-            Tournament.Games.Add(game);
+            GameDate = game.GameDate;
+            //Tournament.Games.Add(game);
             teams = [teamA, teamB];
             driver.Close();
 

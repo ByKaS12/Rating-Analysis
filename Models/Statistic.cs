@@ -2,12 +2,12 @@
 {
     public class Statistic
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public Guid Id { get; set; }
         public TimeOnly TimePlayed { get; set; }
-        public virtual Shoot Shoots { get; set; }
-        public int Points { get { return ((Shoots.ThreePointScoredPoints * 3) + (Shoots.TwoPointScoredPoints * 2) + Shoots.FreeThrowsScoredPoints); } set { Points = value; } }
+        public virtual Shoot? Shoots { get; set; } = new();
+        public int? Points { get { return ((Shoots.ThreePointScoredPoints * 3) + (Shoots.TwoPointScoredPoints * 2) + Shoots.FreeThrowsScoredPoints); } set { Points = value; } }
 
-        public virtual Rebound Rebounds { get; set; }
+        public virtual Rebound? Rebounds { get; set; } = new();
         public int Assists { get; set; }
         public int Steals { get; set; }
         public int Losses { get; set; }

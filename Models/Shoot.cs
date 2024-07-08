@@ -3,7 +3,7 @@
 
     public class Shoot
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public Guid Id { get; set; }
         public int TwoPointScoredPoints { get; set; }
         public int TwoPointAllPoints { get; set; }
         public int ThreePointScoredPoints { get; set; }
@@ -14,7 +14,7 @@
         public int FieldGoalsScoredPoints { get { return ThreePointScoredPoints + TwoPointScoredPoints; } set { FieldGoalsScoredPoints = value; } }
 
         public Guid StatisticId { get; set; }
-        public virtual Statistic Statistic { get; set; }
+        public virtual Statistic? Statistic { get; set; }
 
     }
 }

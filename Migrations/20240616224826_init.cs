@@ -85,12 +85,12 @@ namespace DiplomMag.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Statistic",
+                name: "Statistics",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     TimePlayed = table.Column<TimeOnly>(type: "TEXT", nullable: false),
-                    Points = table.Column<int>(type: "INTEGER", nullable: false),
+                    Points = table.Column<int>(type: "INTEGER", nullable: true),
                     Assists = table.Column<int>(type: "INTEGER", nullable: false),
                     Steals = table.Column<int>(type: "INTEGER", nullable: false),
                     Losses = table.Column<int>(type: "INTEGER", nullable: false),
@@ -111,9 +111,9 @@ namespace DiplomMag.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Statistic", x => x.Id);
+                    table.PrimaryKey("PK_Statistics", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Statistic_Players_PlayerId",
+                        name: "FK_Statistics_Players_PlayerId",
                         column: x => x.PlayerId,
                         principalTable: "Players",
                         principalColumn: "Id",
@@ -121,7 +121,7 @@ namespace DiplomMag.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Rebound",
+                name: "Rebounds",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
@@ -132,17 +132,17 @@ namespace DiplomMag.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Rebound", x => x.Id);
+                    table.PrimaryKey("PK_Rebounds", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Rebound_Statistic_StatisticId",
+                        name: "FK_Rebounds_Statistics_StatisticId",
                         column: x => x.StatisticId,
-                        principalTable: "Statistic",
+                        principalTable: "Statistics",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Shoot",
+                name: "Shoots",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
@@ -158,11 +158,11 @@ namespace DiplomMag.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Shoot", x => x.Id);
+                    table.PrimaryKey("PK_Shoots", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Shoot_Statistic_StatisticId",
+                        name: "FK_Shoots_Statistics_StatisticId",
                         column: x => x.StatisticId,
-                        principalTable: "Statistic",
+                        principalTable: "Statistics",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -183,20 +183,20 @@ namespace DiplomMag.Migrations
                 column: "TeamId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rebound_StatisticId",
-                table: "Rebound",
+                name: "IX_Rebounds_StatisticId",
+                table: "Rebounds",
                 column: "StatisticId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Shoot_StatisticId",
-                table: "Shoot",
+                name: "IX_Shoots_StatisticId",
+                table: "Shoots",
                 column: "StatisticId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Statistic_PlayerId",
-                table: "Statistic",
+                name: "IX_Statistics_PlayerId",
+                table: "Statistics",
                 column: "PlayerId",
                 unique: true);
         }
@@ -205,13 +205,13 @@ namespace DiplomMag.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Rebound");
+                name: "Rebounds");
 
             migrationBuilder.DropTable(
-                name: "Shoot");
+                name: "Shoots");
 
             migrationBuilder.DropTable(
-                name: "Statistic");
+                name: "Statistics");
 
             migrationBuilder.DropTable(
                 name: "Players");

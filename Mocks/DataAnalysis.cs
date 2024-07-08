@@ -45,7 +45,7 @@ namespace DiplomMag.Mocks
             CalclgFTA = Game.Players.Average(x => x.Statistic.Shoots.FreeThrowsAllPoints);
             CalclgFG = Game.Players.Average(x => x.Statistic.Shoots.FieldGoalsScoredPoints);
             CalclgFT = Game.Players.Average(x => x.Statistic.Shoots.FreeThrowsScoredPoints);
-            CalclgPTS = Game.Players.Average(x => x.Statistic.Points);
+            CalclgPTS = (double)Game.Players.Average(x => x.Statistic.Points);
             CalclgORB = Game.Players.Average(x => x.Statistic.Rebounds.RebOfAlien);
             CalclgTO = Game.Players.Average(x => x.Statistic.Losses);
             CalclgTRB = Game.Players.Average(x => x.Statistic.Rebounds.AllReb);
@@ -112,10 +112,10 @@ namespace DiplomMag.Mocks
         // 
         public double CalcHollinger() => 0.8*(CalcUPer() * (CalclgPace / CalctmPace)*15.0/CalclgUPer);
         public double CalcTPA() => Player.Statistic.PlusMinus*Player.Statistic.CalcPace*(Player.Statistic.TimePlayed.Minute+ Player.Statistic.TimePlayed.Second/60.0);
-        public double CalcOffRating() => Game.Players.FindAll(x => x.TeamId == Player.TeamId).Sum(x => x.Statistic.Points)*100/CalctmPOSS();
-        public double CalcDefRating() => Game.Players.FindAll(x => x.TeamId != Player.TeamId).Sum(x => x.Statistic.Points) * 100 / CalctmPOSS();
+        public double CalcOffRating() => (double)(Game.Players.FindAll(x => x.TeamId == Player.TeamId).Sum(x => x.Statistic.Points)*100/CalctmPOSS());
+        public double CalcDefRating() => (double)(Game.Players.FindAll(x => x.TeamId != Player.TeamId).Sum(x => x.Statistic.Points) * 100 / CalctmPOSS());
         public double CalcEFGProcent() => (Player.Statistic.Shoots.FieldGoalsScoredPoints+ 0.5*Player.Statistic.Shoots.ThreePointScoredPoints)/Player.Statistic.Shoots.FieldGoalsAllPoints;
-        public double CalcTSProcent() => Player.Statistic.Points/(2*(Player.Statistic.Shoots.FieldGoalsAllPoints+(0.44* Player.Statistic.Shoots.FreeThrowsAllPoints)));
+        public double CalcTSProcent() => (double)(Player.Statistic.Points/(2*(Player.Statistic.Shoots.FieldGoalsAllPoints+(0.44* Player.Statistic.Shoots.FreeThrowsAllPoints))));
 
 
 	}

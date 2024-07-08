@@ -11,6 +11,9 @@ namespace DiplomMag.Models
         public DbSet<Game> Games { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<Player> Players { get; set; }
+        public DbSet<Statistic> Statistics { get; set; }
+        public DbSet<Rebound> Rebounds { get; set; }
+        public DbSet<Shoot> Shoots { get; set; }
 
         public ApplicationContext()
         {
@@ -23,7 +26,6 @@ namespace DiplomMag.Models
             string path = Environment.GetFolderPath(folder);
 
             _ = optionsBuilder
-                .UseLazyLoadingProxies()
                 .UseSqlite($"Data Source={path}{Path.DirectorySeparatorChar}Rating-analysis.db");
         }
     }

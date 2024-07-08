@@ -15,11 +15,7 @@ namespace DiplomMag.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.4")
-                .HasAnnotation("Proxies:ChangeTracking", false)
-                .HasAnnotation("Proxies:CheckEquality", false)
-                .HasAnnotation("Proxies:LazyLoading", true);
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.4");
 
             modelBuilder.Entity("DiplomMag.Models.Team", b =>
                 {
@@ -115,7 +111,7 @@ namespace DiplomMag.Migrations
                     b.HasIndex("StatisticId")
                         .IsUnique();
 
-                    b.ToTable("Rebound");
+                    b.ToTable("Rebounds");
                 });
 
             modelBuilder.Entity("DiplomMag.models.Shoot", b =>
@@ -156,7 +152,7 @@ namespace DiplomMag.Migrations
                     b.HasIndex("StatisticId")
                         .IsUnique();
 
-                    b.ToTable("Shoot");
+                    b.ToTable("Shoots");
                 });
 
             modelBuilder.Entity("DiplomMag.models.Statistic", b =>
@@ -213,7 +209,7 @@ namespace DiplomMag.Migrations
                     b.Property<int>("PlusMinus")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Points")
+                    b.Property<int?>("Points")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Steals")
@@ -227,7 +223,7 @@ namespace DiplomMag.Migrations
                     b.HasIndex("PlayerId")
                         .IsUnique();
 
-                    b.ToTable("Statistic");
+                    b.ToTable("Statistics");
                 });
 
             modelBuilder.Entity("DiplomMag.models.Tournament", b =>
@@ -326,11 +322,9 @@ namespace DiplomMag.Migrations
 
             modelBuilder.Entity("DiplomMag.models.Statistic", b =>
                 {
-                    b.Navigation("Rebounds")
-                        .IsRequired();
+                    b.Navigation("Rebounds");
 
-                    b.Navigation("Shoots")
-                        .IsRequired();
+                    b.Navigation("Shoots");
                 });
 
             modelBuilder.Entity("DiplomMag.models.Tournament", b =>

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DiplomMag.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class MigFixv10 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -128,7 +128,8 @@ namespace DiplomMag.Migrations
                     RebOfAlien = table.Column<int>(type: "INTEGER", nullable: false),
                     RebOfOwn = table.Column<int>(type: "INTEGER", nullable: false),
                     AllReb = table.Column<int>(type: "INTEGER", nullable: false),
-                    StatisticId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    StatisticId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    StatisticId1 = table.Column<Guid>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -139,6 +140,11 @@ namespace DiplomMag.Migrations
                         principalTable: "Statistics",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Rebounds_Statistics_StatisticId1",
+                        column: x => x.StatisticId1,
+                        principalTable: "Statistics",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -154,7 +160,8 @@ namespace DiplomMag.Migrations
                     FreeThrowsAllPoints = table.Column<int>(type: "INTEGER", nullable: false),
                     FieldGoalsAllPoints = table.Column<int>(type: "INTEGER", nullable: false),
                     FieldGoalsScoredPoints = table.Column<int>(type: "INTEGER", nullable: false),
-                    StatisticId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    StatisticId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    StatisticId1 = table.Column<Guid>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -165,6 +172,11 @@ namespace DiplomMag.Migrations
                         principalTable: "Statistics",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Shoots_Statistics_StatisticId1",
+                        column: x => x.StatisticId1,
+                        principalTable: "Statistics",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -189,10 +201,20 @@ namespace DiplomMag.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Rebounds_StatisticId1",
+                table: "Rebounds",
+                column: "StatisticId1");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Shoots_StatisticId",
                 table: "Shoots",
                 column: "StatisticId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Shoots_StatisticId1",
+                table: "Shoots",
+                column: "StatisticId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Statistics_PlayerId",

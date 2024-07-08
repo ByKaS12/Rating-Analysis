@@ -3,6 +3,7 @@ using System;
 using DiplomMag.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DiplomMag.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20240708191209_MigFix-v10")]
+    partial class MigFixv10
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.4");
@@ -93,6 +96,9 @@ namespace DiplomMag.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("AllReb")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("RebOfAlien")
                         .HasColumnType("INTEGER");
@@ -214,6 +220,9 @@ namespace DiplomMag.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<int>("PlusMinus")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Points")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Steals")

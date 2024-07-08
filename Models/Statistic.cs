@@ -1,11 +1,21 @@
 ﻿namespace DiplomMag.models
+
 {
     public class Statistic
     {
         public Guid Id { get; set; }
         public TimeOnly TimePlayed { get; set; }
         public virtual Shoot? Shoots { get; set; } = new();
-        public int? Points { get { return ((Shoots.ThreePointScoredPoints * 3) + (Shoots.TwoPointScoredPoints * 2) + Shoots.FreeThrowsScoredPoints); } set { Points = value; } }
+		public  int Points;
+		public int _points
+		{
+			get { return Points; }
+			set
+			{
+				this.Points = (Shoots.ThreePointScoredPoints * 3) + (Shoots.TwoPointScoredPoints * 2) + Shoots.FreeThrowsScoredPoints;
+			}
+		}
+		//public int? Points { get { return  } set { Points = value; } }
 
         public virtual Rebound? Rebounds { get; set; } = new();
         public int Assists { get; set; }

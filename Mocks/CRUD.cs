@@ -8,7 +8,7 @@ namespace DiplomMag.Mocks
     {
         public ApplicationContext db;
 
-        public CRUD(ref ApplicationContext context)
+        public CRUD(ApplicationContext context)
         {
             db = context;
         }

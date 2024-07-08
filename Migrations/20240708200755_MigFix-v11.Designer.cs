@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DiplomMag.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20240616224826_init")]
-    partial class init
+    [Migration("20240708200755_MigFix-v11")]
+    partial class MigFixv11
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -97,9 +97,6 @@ namespace DiplomMag.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("AllReb")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("RebOfAlien")
                         .HasColumnType("INTEGER");
 
@@ -109,10 +106,15 @@ namespace DiplomMag.Migrations
                     b.Property<Guid>("StatisticId")
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid?>("StatisticId1")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.HasIndex("StatisticId")
                         .IsUnique();
+
+                    b.HasIndex("StatisticId1");
 
                     b.ToTable("Rebounds");
                 });
@@ -138,6 +140,9 @@ namespace DiplomMag.Migrations
                     b.Property<Guid>("StatisticId")
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid?>("StatisticId1")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("ThreePointAllPoints")
                         .HasColumnType("INTEGER");
 
@@ -154,6 +159,8 @@ namespace DiplomMag.Migrations
 
                     b.HasIndex("StatisticId")
                         .IsUnique();
+
+                    b.HasIndex("StatisticId1");
 
                     b.ToTable("Shoots");
                 });
@@ -210,9 +217,6 @@ namespace DiplomMag.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<int>("PlusMinus")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("Points")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Steals")
@@ -276,22 +280,30 @@ namespace DiplomMag.Migrations
 
             modelBuilder.Entity("DiplomMag.models.Rebound", b =>
                 {
-                    b.HasOne("DiplomMag.models.Statistic", "Statistic")
+                    b.HasOne("DiplomMag.models.Statistic", null)
                         .WithOne("Rebounds")
                         .HasForeignKey("DiplomMag.models.Rebound", "StatisticId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("DiplomMag.models.Statistic", "Statistic")
+                        .WithMany()
+                        .HasForeignKey("StatisticId1");
 
                     b.Navigation("Statistic");
                 });
 
             modelBuilder.Entity("DiplomMag.models.Shoot", b =>
                 {
-                    b.HasOne("DiplomMag.models.Statistic", "Statistic")
+                    b.HasOne("DiplomMag.models.Statistic", null)
                         .WithOne("Shoots")
                         .HasForeignKey("DiplomMag.models.Shoot", "StatisticId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("DiplomMag.models.Statistic", "Statistic")
+                        .WithMany()
+                        .HasForeignKey("StatisticId1");
 
                     b.Navigation("Statistic");
                 });

@@ -12,11 +12,9 @@ namespace DiplomMag.Mocks
         public Tournament Tournament { get; set; }
         public string GameDate { get; set; }
         public List<Team> teams { get; set; }
-        public CRUD db;
-        public GetData(string url,CRUD _db)
+        public GetData(string url)
         {
             Url = url;
-            db= _db;
         }
         public ChromeDriver GetDriver()
         {
@@ -26,7 +24,7 @@ namespace DiplomMag.Mocks
             driver.Navigate().GoToUrl(Url);
             return driver;
         }
-        public void WebSrap()
+        public void WebSrap(CRUD db)
         {
 
             var driver = GetDriver();
@@ -52,19 +50,19 @@ namespace DiplomMag.Mocks
             {
                 var Name = nodesTeamA[i].FindElements(By.XPath("td[3]"))[0].Text.Split(" ");
                 var Time = nodesTeamA[i].FindElements(By.XPath("td[4]"))[0].Text.Split(":");
-                var Points = nodesTeamA[i].FindElements(By.XPath("td[5]"))[0].Text;
+                //var Points = nodesTeamA[i].FindElements(By.XPath("td[5]"))[0].Text;
                 var TwoPoint = nodesTeamA[i].FindElements(By.XPath("td[6]"))[0].Text.Split("/");
                 TwoPoint = TwoPoint[0] != "" ? TwoPoint : ["0", "0"];
                 var ThreePoint = nodesTeamA[i].FindElements(By.XPath("td[7]"))[0].Text.Split("/");
                 ThreePoint = ThreePoint[0] != "" ? ThreePoint : ["0", "0"];
-                var Shoots = nodesTeamA[i].FindElements(By.XPath("td[8]"))[0].Text.Split("/");
+                //var Shoots = nodesTeamA[i].FindElements(By.XPath("td[8]"))[0].Text.Split("/");
                 var FreeThrows = nodesTeamA[i].FindElements(By.XPath("td[9]"))[0].Text.Split("/");
                 FreeThrows = FreeThrows[0] != "" ? FreeThrows : ["0", "0"];
                 var ReboundOur = nodesTeamA[i].FindElements(By.XPath("td[10]"))[0].Text;
                 ReboundOur = ReboundOur != "" ? ReboundOur : "0";
                 var ReboundEnemy = nodesTeamA[i].FindElements(By.XPath("td[11]"))[0].Text;
                 ReboundEnemy = ReboundEnemy != "" ? ReboundEnemy : "0";
-                var ReboundAll = nodesTeamA[i].FindElements(By.XPath("td[12]"))[0].Text;
+                //var ReboundAll = nodesTeamA[i].FindElements(By.XPath("td[12]"))[0].Text;
                 var Assists = nodesTeamA[i].FindElements(By.XPath("td[13]"))[0].Text;
                 Assists = Assists != "" ? Assists : "0";
                 var Steals = nodesTeamA[i].FindElements(By.XPath("td[14]"))[0].Text;
@@ -108,6 +106,7 @@ namespace DiplomMag.Mocks
                 Shoot shoots = new Shoot()
                 {
                     Statistic = statistic,
+                    StatisticId = statistic.Id,
                     TwoPointScoredPoints = Convert.ToInt32(TwoPoint[0]),
                     TwoPointAllPoints = Convert.ToInt32(TwoPoint[1]),
                     ThreePointScoredPoints = Convert.ToInt32(ThreePoint[0]),
@@ -118,8 +117,9 @@ namespace DiplomMag.Mocks
                 db.AddShoot(shoots);
                 var rebs = new Rebound()
                 {
-                    Statistic = statistic,
-                    RebOfAlien = Convert.ToInt32(ReboundEnemy),
+					Statistic = statistic,
+					StatisticId = statistic.Id,
+					RebOfAlien = Convert.ToInt32(ReboundEnemy),
                     RebOfOwn = Convert.ToInt32(ReboundOur)
                 };
                 db.AddRebound(rebs);
@@ -191,8 +191,9 @@ namespace DiplomMag.Mocks
                 db.AddStatistic(statistic);
                 Shoot shoots = new Shoot()
                 {
-                    Statistic = statistic,
-                    TwoPointScoredPoints = Convert.ToInt32(TwoPoint[0]),
+					Statistic = statistic,
+					StatisticId = statistic.Id,
+					TwoPointScoredPoints = Convert.ToInt32(TwoPoint[0]),
                     TwoPointAllPoints = Convert.ToInt32(TwoPoint[1]),
                     ThreePointScoredPoints = Convert.ToInt32(ThreePoint[0]),
                     ThreePointAllPoints = Convert.ToInt32(ThreePoint[1]),
@@ -202,8 +203,9 @@ namespace DiplomMag.Mocks
                 db.AddShoot(shoots);
                 var rebs = new Rebound()
                 {
-                    Statistic = statistic,
-                    RebOfAlien = Convert.ToInt32(ReboundEnemy),
+					Statistic = statistic,
+					StatisticId = statistic.Id,
+					RebOfAlien = Convert.ToInt32(ReboundEnemy),
                     RebOfOwn = Convert.ToInt32(ReboundOur)
                 };
                 db.AddRebound(rebs);
